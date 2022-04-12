@@ -1,0 +1,159 @@
+todo stream routes ask about. Relationship genre has many movie & show
+
+
+<!-- Route -->
+
+app.use("/stream/movies")
+app.use("/stream/shows")
+Stream DB - Route - Movies || Shows
+
+<!-- Models -->
+
+Store Movies ->
+Movie {
+name: string,
+actor: string,
+rating: INT
+releaseYear: INT
+genreId: int?? or string?? --- fk
+
+}
+
+Store Shows ->
+show {
+name: string
+actor: string
+rating: INT
+seasons: INT
+episodes: INT
+genreId - int?? or string?? --- fk
+}
+
+Genre
+{
+name: string
+}
+
+<!--! relationships -->
+
+movie has one genre
+show has one genre
+genre has many show & movie
+
+<!-- Movie -->
+
+Store Movie by Genre
+Search by Genre
+Search by name
+
+<!-- TV -->
+
+Store TV by Genre
+Search by Genre
+Search by Name
+
+---
+
+--Verbs--
+CRUD
+
+add
+addOne
+addMany
+find
+findOne
+findAll
+update
+updateAll
+updateOne
+delete
+deleteOne
+deleteAll
+deleteAllWhere
+
+<!-- express/insomnia -->
+<!-- ! GET (read)-->
+
+<!-- all Movies & Shows -->
+
+router.get("/stream")
+router.get("/stream/?genre=horror")
+stream/movies
+stream/shows
+
+router.get("/stream/movies/?genre=thriller") || router.get("/stream/shows/?genre=thriller&genre=comedy")
+
+<!-- genre -->
+
+router.get("/stream/genre/:nameORid?query=name || query=id)? || router.get("/stream/shows/:name)?
+
+<!-- get one -->
+
+router.get("/stream/movies/:name) || router.get("/stream/shows/:name)
+
+<!-- ! POST (create) -->
+<!--  ADD  -->
+
+router.post("/stream/movies/) || router.post("/stream/shows)
+
+<!-- ! PUT (update) -->
+<!-- search by name -->
+
+router.put("/stream/movies/:name) || router.put("/stream/shows/:name)
+router.put("/stream/movies/:genreId)? || router.put("/stream/shows/:genreId)????????????
+
+<!-- ! DELETE (destroy) -->
+<!-- search by name? -->
+
+router.delete("/stream/movies/:name) || router.delete("/stream/shows/:name)
+
+<!-- router.delete("/stream/movies/:genreId)? || router.delete("/stream/shows/:genreId)???????????? -->
+
+----Nouns----
+stream
+movie
+movies
+Show
+Shows
+genre
+genres
+releaseYear // all movies & TV Show by release year?
+Rating
+season
+Seasons
+episode
+episodes
+actor // branch to own model future?
+
+---
+
+router
+Stream Model - Movies n films????
+
+movie model - actor release rating title genre
+tv model - actor release rating title genre
+genre model - genre name
+
+<!-- packages -->
+
+npm i express
+npm init -y
+MySql2
+sequelize
+nodemon
+
+<!-- database -->
+
+SQL db
+
+
+
+/streams
+    /streams/shows          /streams/shows/?genre=
+        /streams/shows/:id
+            /streams/shows/:id/seasons
+                /streams/shows/:id/seasons/:seasonNum
+                    /streams/shows/:id/seasons/:seasonNum/episodes
+                        /streams/shows/:id/seasons/:seasonNum/episodes/:episodeNum
+    /streams/movies     /streams/movies/?genre=
+     /streams/movies/:id
