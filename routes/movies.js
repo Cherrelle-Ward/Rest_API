@@ -1,5 +1,9 @@
 const router = require("express").Router();
 const { Movie } = require("../models/");
+const {
+  handleInternalServerError,
+  handleNotFoundError,
+} = require("../middleware/error");
 
 // ! GET MOVIE
 // get all movies
@@ -7,10 +11,18 @@ router.get("/movies", async (req, res) => {
   res.status(200).json(await Movie.findAll({}));
 });
 //  get one
-router.get("/movies/:name", async (req, res) => {
-  res
-    .status(200)
-    .json(await Movie.findOne({ where: { name: req.params.name } }));
+router.get("/movies/:name", async (req, res, next) => {
+  try {
+    const movie = await Movie.findOne({ where: { name: req.params.name } });
+    if (movie) {
+      res.status(200).json(movie);
+    } else {
+      req.errType = 400;
+      throw new Error("no such movie kiddo");
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
 // ! ADD MOVIE
@@ -53,4 +65,7 @@ router.put("/movies/:name", async (req, res) => {
   await result.save();
   res.status(200).json({ msg: `Updated ${req.params.name}`, result });
 });
+
+router.use(handleNotFoundError);
+router.use(handleInternalServerError);
 module.exports = router;

@@ -7,6 +7,7 @@ const app = express();
 
 // ! Connections
 const connection = require("./connection");
+
 // ! Model connection
 const { Movie, Show, Genre, User } = require("./models/");
 

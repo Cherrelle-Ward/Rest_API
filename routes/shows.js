@@ -1,5 +1,9 @@
 const router = require("express").Router();
 const { Show } = require("../models/");
+const {
+  handleInternalServerError,
+  handleNotFoundError,
+} = require("../middleware/error");
 
 // ! GET SHOW
 // get all shows
@@ -7,10 +11,18 @@ router.get("/shows", async (req, res) => {
   res.status(200).json(await Show.findAll({}));
 });
 //  get one
-router.get("/shows/:name", async (req, res) => {
-  res
-    .status(200)
-    .json(await Show.findOne({ where: { name: req.params.name } }));
+router.get("/shows/:name", async (req, res, next) => {
+  try {
+    const show = await Show.findOne({ where: { name: req.params.name } });
+    if (show) {
+      res.status(200).json(show);
+    } else {
+      req.errType = 400;
+      throw new Error("no such show kiddo");
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
 // ! ADD SHOW
@@ -57,4 +69,6 @@ router.put("/shows/:name", async (req, res) => {
   res.status(200).json({ msg: `Updated ${req.params.name}`, result });
 });
 
+router.use(handleNotFoundError);
+router.use(handleInternalServerError);
 module.exports = router;
