@@ -1,14 +1,23 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+//! middleware
+// const passport = require("passport");
+// const { registerStrategy, loginStrategy } = require("./middleware/auth");
 
 // ! Connections
 const connection = require("./connection");
+// ! Model connection
+const { Movie, Show, Genre, User } = require("./models/");
 
 // !Routes
-const movieRouter = require("./routes/movies");
-const showRouter = require("./routes/shows");
-const streamRouter = require("./routes/stream");
+const {
+  movieRouter,
+  showRouter,
+  streamRouter,
+  genreRouter,
+  userRouter,
+} = require("./routes/");
 
 // telling server we will accept data as json.
 app.use(express.json());
@@ -16,7 +25,12 @@ app.use(express.json());
 // !routes are mounted under
 app.use("/", movieRouter);
 app.use("/", showRouter);
-app.use("/", streamRouter);
+app.use("/", genreRouter);
+app.use("/stream", streamRouter);
+// app.use("/user", userRouter);
+// !user
+// passport.use("register", registerStrategy);
+// passport.use("login", loginStrategy);
 
 app.listen(parseInt(process.env.HTTP_PORT), () => {
   console.log("Server Online");

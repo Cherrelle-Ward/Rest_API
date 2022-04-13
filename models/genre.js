@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const connection = require("../connection");
-const Movie = require("./movies");
-const Show = require("./shows");
+const { Movie, Show, User } = require("./index");
 
 const Genre = connection.define(
   "Genre",
@@ -9,6 +8,7 @@ const Genre = connection.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      // unique: true,
     },
   },
   {
@@ -16,5 +16,4 @@ const Genre = connection.define(
   }
 );
 
-// Genre.hasMany(Show);
 module.exports = Genre;

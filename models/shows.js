@@ -22,5 +22,4 @@ const Show = connection.define(
   }
 );
 
-// Show.hasOne(Genre);
 module.exports = Show;

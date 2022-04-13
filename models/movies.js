@@ -20,5 +20,4 @@ const Movie = connection.define(
   }
 );
 
-// Movie.hasOne(Genre);
 module.exports = Movie;
