@@ -1,5 +1,9 @@
 const router = require("express").Router();
 const { Show, Movie, Genre } = require("../models/");
+const {
+  handleInternalServerError,
+  handleNotFoundError,
+} = require("../middleware/error");
 
 // ! GET GENRE
 // get all
@@ -14,8 +18,32 @@ router.get("/genre/:name", async (req, res) => {
 });
 
 // ! ADD genre
-router.post("/genre", async (req, res) => {
-  const genre = await Genre.create(req.body);
-  res.status(201).json({ msg: `Created ${genre.name}`, genre });
-});
+
+// const add = async (res, req) => {
+//     const foundGenre = await Genre.findOne({
+//       where: { name: req.params.name },
+//     });
+//   if (!foundGenre) {
+//     try {
+//       const genre = await Genre.create(req.body);
+//       const movie = await Movie.create(req.body);
+//       const show = await Show.create(req.body);
+
+//       console.log("Movie Added");
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   } else if (foundGenre) {
+//     const movie = await Movie.create(req.body);
+//     const show = await Show.create(req.body);
+
+//     console.log("Movie Added");
+//   }
+//   add();
+// };
+// router.post("/genre", add);
+
+router.use(handleNotFoundError);
+router.use(handleInternalServerError);
+
 module.exports = router;

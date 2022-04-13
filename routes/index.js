@@ -6,6 +6,8 @@ const streamRouter = require("./stream");
 const genreRouter = require("./genre");
 // const userRouter = require("./user");
 
+//! error connection
+
 module.exports = {
   movieRouter,
   showRouter,
